@@ -18,8 +18,13 @@ interface SkillCategory {
 export default function Skills() {
   const [hoveredCategory, setHoveredCategory] = useState<number | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mounted, setMounted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const categories: SkillCategory[] = [
     {
@@ -192,6 +197,30 @@ export default function Skills() {
     }
   };
 
+  // Fixed particle positions
+  const particles = [
+    { top: 7, left: 12, duration: 8, opacity: 0.12 },
+    { top: 23, left: 67, duration: 11, opacity: 0.15 },
+    { top: 45, left: 23, duration: 9, opacity: 0.1 },
+    { top: 72, left: 81, duration: 13, opacity: 0.18 },
+    { top: 18, left: 43, duration: 10, opacity: 0.14 },
+    { top: 63, left: 32, duration: 12, opacity: 0.11 },
+    { top: 38, left: 76, duration: 8, opacity: 0.16 },
+    { top: 84, left: 54, duration: 14, opacity: 0.13 },
+    { top: 52, left: 9, duration: 9, opacity: 0.17 },
+    { top: 91, left: 68, duration: 11, opacity: 0.12 },
+    { top: 14, left: 88, duration: 10, opacity: 0.15 },
+    { top: 69, left: 41, duration: 13, opacity: 0.1 },
+    { top: 33, left: 19, duration: 8, opacity: 0.14 },
+    { top: 57, left: 95, duration: 12, opacity: 0.16 },
+    { top: 79, left: 27, duration: 9, opacity: 0.11 },
+    { top: 26, left: 53, duration: 11, opacity: 0.13 },
+    { top: 48, left: 72, duration: 14, opacity: 0.17 },
+    { top: 94, left: 36, duration: 10, opacity: 0.12 },
+    { top: 11, left: 47, duration: 8, opacity: 0.15 },
+    { top: 82, left: 62, duration: 13, opacity: 0.1 },
+  ];
+
   return (
     <section 
       ref={sectionRef}
@@ -220,28 +249,20 @@ export default function Skills() {
           backgroundSize: '50px 50px'
         }} />
 
-       {/* Floating particles - Client side only */}
-{typeof window !== 'undefined' && [...Array(20)].map((_, i) => {
-  // Generate deterministic values based on index to avoid hydration mismatch
-  const top = (i * 13 + 7) % 100;
-  const left = (i * 17 + 23) % 100;
-  const duration = 5 + (i % 10);
-  const opacity = 0.1 + ((i % 5) / 25);
-  
-  return (
-    <div
-      key={i}
-      className="absolute w-1 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"
-      style={{
-        top: `${top}%`,
-        left: `${left}%`,
-        animation: `float ${duration}s linear infinite`,
-        opacity: opacity,
-        filter: 'blur(1px)'
-      }}
-    />
-  );
-})}
+        {/* Floating particles - Only render after mount with fixed positions */}
+        {mounted && particles.map((particle, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"
+            style={{
+              top: `${particle.top}%`,
+              left: `${particle.left}%`,
+              animation: `float ${particle.duration}s linear infinite`,
+              opacity: particle.opacity,
+              filter: 'blur(1px)'
+            }}
+          />
+        ))}
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -268,7 +289,7 @@ export default function Skills() {
           </p>
         </div>
 
-        {/* Skills Grid - Now 3 columns on large screens */}
+        {/* Skills Grid - 3 columns on large screens */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {categories.map((category, index) => (
             <div
@@ -336,9 +357,6 @@ export default function Skills() {
                         <div
                           key={skill.name}
                           className="group/skill relative p-3 rounded-xl bg-slate-800/20 border border-slate-800/50 hover:border-transparent transition-all duration-300"
-                          style={{
-                            animationDelay: `${index * 100 + skillIndex * 50}ms`,
-                          }}
                         >
                           {/* Skill hover gradient */}
                           <div className={`
@@ -359,9 +377,9 @@ export default function Skills() {
                                     key={i}
                                     className={`
                                       w-1 h-1 rounded-full transition-all duration-300
-                                      ${skill.level === 'expert' && i < 3 ? `bg-gradient-to-r ${category.color}` : ''}
-                                      ${skill.level === 'intermediate' && i < 2 ? `bg-gradient-to-r ${category.color}` : ''}
-                                      ${skill.level === 'learning' && i < 1 ? `bg-gradient-to-r ${category.color}` : ''}
+                                      ${skill.level === 'expert' ? 'bg-gradient-to-r from-blue-400 to-purple-400' : ''}
+                                      ${skill.level === 'intermediate' && i < 2 ? 'bg-gradient-to-r from-purple-400 to-pink-400' : ''}
+                                      ${skill.level === 'learning' && i < 1 ? 'bg-gradient-to-r from-pink-400 to-blue-400' : ''}
                                       ${(skill.level === 'expert' && i >= 3) || 
                                         (skill.level === 'intermediate' && i >= 2) || 
                                         (skill.level === 'learning' && i >= 1) ? 'bg-slate-700' : ''}

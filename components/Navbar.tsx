@@ -13,7 +13,8 @@ import {
   Briefcase, 
   Mail,
   FileText,
-  ExternalLink
+  ExternalLink,
+  Award
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -30,7 +31,7 @@ export default function Navbar() {
       setScrolled(window.scrollY > 50);
       
       // Update active link based on scroll position
-      const sections = ['home', 'about', 'projects', 'skills', 'contact'];
+      const sections = ['home', 'about', 'projects', 'certificates', 'skills', 'contact'];
       const scrollPosition = window.scrollY + 150;
 
       for (const section of sections) {
@@ -70,7 +71,6 @@ export default function Navbar() {
   }, []);
 
   const handleResumeClick = () => {
-    // Open the resume PDF in a new tab
     window.open('/atulfullstackresume.pdf', '_blank');
   };
 
@@ -78,8 +78,9 @@ export default function Navbar() {
     { href: '#home', label: 'Home', icon: Home, gradient: 'from-blue-400 to-purple-400' },
     { href: '#about', label: 'About', icon: User, gradient: 'from-purple-400 to-pink-400' },
     { href: '#projects', label: 'Projects', icon: Briefcase, gradient: 'from-pink-400 to-blue-400' },
-    { href: '#skills', label: 'Skills', icon: Code, gradient: 'from-blue-400 to-purple-400' },
-    { href: '#contact', label: 'Contact', icon: Mail, gradient: 'from-purple-400 to-pink-400' },
+    { href: '#certificates', label: 'Certificates', icon: Award, gradient: 'from-blue-400 to-purple-400' },
+    { href: '#skills', label: 'Skills', icon: Code, gradient: 'from-purple-400 to-pink-400' },
+    { href: '#contact', label: 'Contact', icon: Mail, gradient: 'from-pink-400 to-blue-400' },
   ];
 
   // Fixed particles for navbar background
@@ -95,8 +96,8 @@ export default function Navbar() {
       <nav className={`
         fixed top-0 left-0 right-0 z-50 transition-all duration-700
         ${scrolled 
-          ? 'py-3 md:py-4 backdrop-blur-xl bg-[#0A0F1C]/80 shadow-2xl shadow-black/30 border-b border-slate-800/50' 
-          : 'py-4 md:py-6 bg-transparent'
+          ? 'py-3 md:py-3 backdrop-blur-xl bg-[#0A0F1C]/80 shadow-2xl shadow-black/30 border-b border-slate-800/50' 
+          : 'py-5 md:py-5 bg-transparent'
         }
       `}>
         {/* Animated gradient background */}
@@ -116,7 +117,7 @@ export default function Navbar() {
                 top: `${p.top}%`,
                 left: `${p.left}%`,
                 animation: `float ${p.duration}s ease-in-out infinite`,
-                opacity: 0.2
+                opacity: 0.15
               }}
             />
           ))}
@@ -132,7 +133,7 @@ export default function Navbar() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex justify-between items-center">
-            {/* Signature Style Logo */}
+            {/* Clean Signature Logo - No subtitle, no green tick */}
             <a 
               href="#home"
               className="group relative block"
@@ -144,43 +145,17 @@ export default function Navbar() {
               {/* Hover glow effect */}
               <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-full opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500" />
               
-              <div className="relative flex items-center gap-3">
-                {/* Decorative dot */}
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-md group-hover:blur-lg transition-all duration-500" />
-                  <div className="relative w-2 h-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-400" />
-                </div>
-                
-                {/* Signature text - handwriting style */}
-                <div className="flex flex-col">
-                  <span className={`
-                    text-2xl md:text-3xl font-bold transition-all duration-300
-                    ${scrolled ? 'tracking-normal' : 'tracking-wide'}
-                  `} style={{ 
-                    fontFamily: "'Dancing Script', 'cursive', 'sans-serif'",
-                    textShadow: scrolled ? '2px 2px 4px rgba(0,0,0,0.3)' : 'none'
-                  }}>
-                    <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text bg-[length:200%_100%] animate-gradient">
-                      Atul Jha
-                    </span>
+              <div className="relative">
+                <span className={`
+                  text-2xl md:text-3xl font-bold transition-all duration-300
+                  ${scrolled ? 'tracking-normal' : 'tracking-wide'}
+                `} style={{ 
+                  fontFamily: "'Dancing Script', 'cursive', 'sans-serif'",
+                }}>
+                  <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text bg-[length:200%_100%] animate-gradient">
+                    Atul Jha
                   </span>
-                  
-                  {/* Subtle title */}
-                  <span className={`
-                    text-[8px] md:text-[10px] font-mono tracking-widest transition-all duration-300
-                    ${scrolled ? 'text-slate-400' : 'text-slate-500'}
-                  `}>
-                    FULL STACK DEVELOPER
-                  </span>
-                </div>
-
-                {/* Verified badge */}
-                <div className="relative ml-1">
-                  <div className="absolute inset-0 bg-green-500/20 rounded-full blur-sm" />
-                  <div className="relative w-4 h-4 rounded-full bg-gradient-to-r from-green-400 to-emerald-400 flex items-center justify-center">
-                    <span className="text-[8px] text-white font-bold">✓</span>
-                  </div>
-                </div>
+                </span>
               </div>
             </a>
 
@@ -209,7 +184,7 @@ export default function Navbar() {
                           }
                         `} />
                         
-                        <div className="relative px-4 py-2.5 rounded-xl flex items-center gap-2">
+                        <div className="relative px-3 py-2 rounded-xl flex items-center gap-1.5">
                           {/* Icon */}
                           <div className={`
                             w-4 h-4 transition-all duration-300
@@ -246,12 +221,11 @@ export default function Navbar() {
                       className="ml-2 relative group/btn"
                     >
                       <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-xl opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500 blur" />
-                      <div className="relative px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 overflow-hidden">
+                      <div className="relative px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 overflow-hidden">
                         <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
                         <span className="text-sm font-medium text-white flex items-center gap-2">
-                          <FileText className="w-4 h-4" />
+                          <FileText className="w-3.5 h-3.5" />
                           Resume
-                          <ExternalLink className="w-3 h-3 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
                         </span>
                       </div>
                     </button>
@@ -263,10 +237,10 @@ export default function Navbar() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden relative w-12 h-12 rounded-2xl bg-[#0D1424]/50 backdrop-blur-xl border border-slate-800 hover:border-purple-500/50 transition-all duration-300 group"
+              className="md:hidden relative w-11 h-11 rounded-xl bg-[#0D1424]/50 backdrop-blur-xl border border-slate-800 hover:border-purple-500/50 transition-all duration-300 group"
               aria-label="Toggle menu"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
               {isOpen ? (
                 <X className="w-5 h-5 text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
               ) : (
@@ -292,13 +266,13 @@ export default function Navbar() {
               {/* Animated border */}
               <div className="absolute inset-0 rounded-3xl p-[1px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-20" />
               
-              <div className="relative p-6 space-y-3">
+              <div className="relative p-5 space-y-2">
                 {navLinks.map((link, index) => (
                   <a
                     key={link.href}
                     href={link.href}
                     className={`
-                      group flex items-center gap-4 px-4 py-3 rounded-xl
+                      group flex items-center gap-3 px-4 py-3 rounded-xl
                       transition-all duration-300
                       ${activeLink === link.label.toLowerCase() 
                         ? 'bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 text-white' 
@@ -312,18 +286,18 @@ export default function Navbar() {
                     }}
                   >
                     <div className={`
-                      w-10 h-10 rounded-xl bg-gradient-to-r ${link.gradient} 
+                      w-9 h-9 rounded-lg bg-gradient-to-r ${link.gradient} 
                       flex items-center justify-center
                     `}>
-                      <link.icon className="w-5 h-5 text-white" />
+                      <link.icon className="w-4 h-4 text-white" />
                     </div>
 
                     <div className="flex-1">
-                      <div className="text-base font-medium">{link.label}</div>
+                      <div className="text-sm font-medium">{link.label}</div>
                     </div>
 
                     <ChevronRight className={`
-                      w-5 h-5 transition-all duration-300
+                      w-4 h-4 transition-all duration-300
                       ${activeLink === link.label.toLowerCase() 
                         ? 'opacity-100 translate-x-0 text-white' 
                         : 'opacity-0 -translate-x-2'
@@ -339,19 +313,13 @@ export default function Navbar() {
                   className="w-full mt-4 group/btn relative overflow-hidden rounded-xl"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-                  <div className="relative px-6 py-4 bg-[#0D1424] rounded-xl border border-slate-800 group-hover/btn:border-transparent transition-all duration-300">
-                    <span className="text-white font-medium flex items-center justify-center gap-3">
-                      <FileText className="w-5 h-5" />
-                      View Resume
-                      <ExternalLink className="w-4 h-4" />
+                  <div className="relative px-5 py-3 bg-[#0D1424] rounded-xl border border-slate-800 group-hover/btn:border-transparent transition-all duration-300">
+                    <span className="text-white text-sm font-medium flex items-center justify-center gap-2">
+                      <FileText className="w-4 h-4" />
+                      Resume
                     </span>
                   </div>
                 </button>
-
-                {/* Decorative signature */}
-                <div className="pt-4 text-center">
-                  <span className="text-xs text-slate-600 font-mono">atuljha-tech</span>
-                </div>
               </div>
             </div>
           </div>
@@ -383,7 +351,7 @@ export default function Navbar() {
         
         @keyframes float {
           0%, 100% { transform: translateY(0) translateX(0); }
-          50% { transform: translateY(-10px) translateX(5px); }
+          50% { transform: translateY(-8px) translateX(4px); }
         }
         
         .animate-gradient {
