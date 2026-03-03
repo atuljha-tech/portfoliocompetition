@@ -360,7 +360,7 @@ export default function Contact() {
                     onClick={(e) => {
                       if (method.id === 'email') {
                         e.preventDefault();
-                        method.action();
+                        method.action?.();
                       }
                     }}
                   >
